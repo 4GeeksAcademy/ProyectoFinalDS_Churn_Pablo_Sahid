@@ -1,0 +1,76 @@
+{
+  "identificador_target": [
+    "CustomerID",
+    "Churn"
+  ],
+  "facturacion_consumo": [
+    "MonthlyRevenue",
+    "MonthlyMinutes",
+    "TotalRecurringCharge",
+    "DirectorAssistedCalls",
+    "OverageMinutes",
+    "RoamingCalls",
+    "PercChangeMinutes",
+    "PercChangeRevenues"
+  ],
+  "calidad_servicio_llamadas": [
+    "DroppedCalls",
+    "BlockedCalls",
+    "UnansweredCalls",
+    "CustomerCareCalls",
+    "ThreewayCalls",
+    "ReceivedCalls",
+    "OutboundCalls",
+    "InboundCalls",
+    "PeakCallsInOut",
+    "OffPeakCallsInOut",
+    "DroppedBlockedCalls",
+    "CallForwardingCalls",
+    "CallWaitingCalls"
+  ],
+  "antiguedad_relacion": [
+    "MonthsInService",
+    "UniqueSubs",
+    "ActiveSubs",
+    "ServiceArea",
+    "RetentionCalls",
+    "RetentionOffersAccepted",
+    "MadeCallToRetentionTeam",
+    "AdjustmentsToCreditRating",
+    "ReferralsMadeBySubscriber"
+  ],
+  "dispositivo_handset": [
+    "Handsets",
+    "HandsetModels",
+    "CurrentEquipmentDays",
+    "HandsetRefurbished",
+    "HandsetWebCapable",
+    "HandsetPrice",
+    "NewCellphoneUser",
+    "NotNewCellphoneUser"
+  ],
+  "demografia_hogar": [
+    "AgeHH1",
+    "AgeHH2",
+    "ChildrenInHH",
+    "Occupation",
+    "MaritalStatus",
+    "IncomeGroup"
+  ],
+  "estilo_vida_posesiones": [
+    "TruckOwner",
+    "RVOwner",
+    "OwnsMotorcycle",
+    "Homeownership",
+    "OwnsComputer",
+    "BuysViaMailOrder",
+    "RespondsToMailOffers",
+    "OptOutMailings",
+    "NonUSTravel"
+  ],
+  "credito_perfil_comercial": [
+    "CreditRating",
+    "HasCreditCard",
+    "PrizmCode"
+  ]
+}
