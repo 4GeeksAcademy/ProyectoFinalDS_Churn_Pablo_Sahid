@@ -7,6 +7,7 @@ import streamlit as st
 import joblib
 import pandas as pd 
 import json 
+import os
 
 model = joblib.load("/workspaces/ProyectoFinalDS_Churn_Pablo_Sahid/models/best_model_XGBoost.joblib")
 
@@ -19,11 +20,23 @@ csv_usuario =  st.file_uploader(label = "Suba un archivo csv (también admite ex
                     type = ["xlsx", "xls","csv"],
                     help = "Formatos admitidos: csv, xlsx y xls")
 
-if csv_usuario is not None:                          #si tenemos el csv subido
-    dataframe = pd.read_csv(csv_usuario)             #creamos un dataframe a partir de el
-    clientes = dataframe["CustomerID"].copy()        #se va a utilizar al final del proceso para mostrar el id de los clientes en la prediccion
-    st.write("Archivo subido correctamente.")    #notificamos al usuario 
+if csv_usuario is not None:
+    #examinar formato del archivo subido y actuar en consecuencia
+    extension = os.path.splitext(csv_usuario.name)[1].lower()   # ".csv", ".xlsx" o ".xls"
 
+    try:
+        if extension == ".csv":
+            dataframe = pd.read_csv(csv_usuario, dtype={"HandsetPrice": str})
+        elif extension in (".xlsx", ".xls"):
+            dataframe = pd.read_excel(csv_usuario, dtype={"HandsetPrice": str})
+        else:
+            st.error("Formato no admitido. Sube un archivo .csv, .xlsx o .xls.")
+            st.stop()
+    except Exception as e:
+        st.error(f"No se pudo leer el archivo: {e}")
+        st.stop()
+
+    clientes = dataframe["CustomerID"].copy()        #copiamos serie de los IDs de clientes para mostrar en la tabla con las predicciones
                                                      #se comprueba que el csv del usuario tenga nulos
     columnas_con_nulos = dataframe.columns[dataframe.isnull().any()].tolist()
     if columnas_con_nulos:
