@@ -90,17 +90,17 @@ if csv_usuario is not None:                          #si tenemos el csv subido
         # Probabilidad de cada clase
         probabilidades = model.predict_proba(dataframe[data_a_predecir])
 
-        # Probabilidad de Churn (clase 1)
-        probabilidad_churn = probabilidades[:, 1]
+        # Probabilidad de Churn (clase 0)
+        probabilidad_churn = probabilidades[:, 0]
 
         # Crear dataframe de resultados
-        resultados = pd.DataFrame({"Cliente": clientes,"Churn": prediction,"Probabilidad": probabilidad_churn})
+        resultados = pd.DataFrame({"Cliente": clientes,"Churn": prediction,"Probabilidad de Churn": probabilidad_churn})
 
         # Convertir 0/1 a Si/No
         resultados["Churn"] = resultados["Churn"].map({0: "Sí",1: "No"})
 
         # Convertir probabilidad a porcentaje
-        resultados["Probabilidad"] = resultados["Probabilidad"].map(lambda x: f"{x:.1%}")
+        resultados["Probabilidad de Churn"] = resultados["Probabilidad de Churn"].map(lambda x: f"{x:.1%}")
 
         # Mostrar resultados
         st.subheader("Resultados de la predicción")
