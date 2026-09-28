@@ -15,14 +15,14 @@ st.title("Predictor de Churn")
 
 #el usuario sube un fichero csv
 
-csv_usuario =  st.file_uploader(label = "Suba un archivo csv para realizar la predicción",
-                    type = "csv",
-                    help = "Solo se admiten archivos csv")
+csv_usuario =  st.file_uploader(label = "Suba un archivo csv (también admite excel) para realizar la predicción",
+                    type = ["xlsx", "xls","csv"],
+                    help = "Formatos admitidos: csv, xlsx y xls")
 
 if csv_usuario is not None:                          #si tenemos el csv subido
     dataframe = pd.read_csv(csv_usuario)             #creamos un dataframe a partir de el
     clientes = dataframe["CustomerID"].copy()        #se va a utilizar al final del proceso para mostrar el id de los clientes en la prediccion
-    st.write("Archivo CSV subido correctamente.")    #notificamos al usuario 
+    st.write("Archivo subido correctamente.")    #notificamos al usuario 
 
                                                      #se comprueba que el csv del usuario tenga nulos
     columnas_con_nulos = dataframe.columns[dataframe.isnull().any()].tolist()
@@ -31,7 +31,7 @@ if csv_usuario is not None:                          #si tenemos el csv subido
         st.stop()                                                                            # y paramos la ejecucion de la pagina 
 
     if st.button("Predecir"):                        #creamos boton para iniciar la prediccion 
-        st.write("estoy prediciendo!")               #notificamos que se esta prediciendo
+        #st.write("estoy prediciendo!")               #notificamos que se esta prediciendo (debug)
 
         #lista de variables predictoras 
         data_a_predecir = ['MonthlyRevenue','MonthlyMinutes','TotalRecurringCharge','DirectorAssistedCalls','OverageMinutes',
