@@ -1,3 +1,4 @@
+import io
 import json
 import os
 from pathlib import Path
@@ -42,10 +43,10 @@ st.markdown(
     <style>
     @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap');
     html, body, [class*="css"], .stMarkdown, button, input { font-family: 'IBM Plex Sans', system-ui, sans-serif; }
-    .block-container { max-width: 1180px; padding-top: 2.2rem; }
+    .block-container { max-width: 1180px; padding-top: 3.5rem; }
     footer { visibility: hidden; }
 
-    .titulo { font-size: 2rem; font-weight: 600; letter-spacing: -0.02em; margin: 0; }
+    .titulo { font-size: 2rem; line-height: 1.3; font-weight: 600; letter-spacing: -0.02em; margin: 0; }
     .subtitulo { color: #5b6673; margin: .25rem 0 1.6rem 0; max-width: 62ch; line-height: 1.5; }
 
     [data-testid="stMetric"] {
@@ -248,9 +249,25 @@ st.dataframe(
 )
 
 descarga = vista.rename(columns={"Probabilidad": "Probabilidad de churn (%)"}).round(1)
-st.download_button(
-    "Descargar resultados (CSV)",
-    data=descarga.to_csv(index=False).encode("utf-8-sig"),
-    file_name="predicciones_churn.csv",
-    mime="text/csv",
+
+d1, d2 = st.columns([1, 3])
+formato = d1.selectbox("Formato de descarga", ["CSV", "Excel"], label_visibility="collapsed")
+
+if formato == "CSV":
+    datos_descarga = descarga.to_csv(index=False).encode("utf-8-sig")
+    nombre_archivo = "predicciones_churn.csv"
+    tipo_mime = "text/csv"
+else:
+    buffer = io.BytesIO()
+    with pd.ExcelWriter(buffer, engine="openpyxl") as writer:
+        descarga.to_excel(writer, index=False, sheet_name="Predicciones")
+    datos_descarga = buffer.getvalue()
+    nombre_archivo = "predicciones_churn.xlsx"
+    tipo_mime = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+
+d2.download_button(
+    f"Descargar resultados ({formato})",
+    data=datos_descarga,
+    file_name=nombre_archivo,
+    mime=tipo_mime,
 )
